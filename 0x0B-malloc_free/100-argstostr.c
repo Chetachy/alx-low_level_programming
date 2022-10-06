@@ -6,7 +6,7 @@
  *Return: returns the length
  */
 
-int len (char *str)
+int len(char *str)
 {
 		int len = 0;
 
