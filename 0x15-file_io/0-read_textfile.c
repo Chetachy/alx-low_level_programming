@@ -1,50 +1,29 @@
 #include "main.h"
 
 /**
- * read_textfile - reads a text file
- * @filename: path of the file to read
- * @letters: number of letters to read and print
- * Return: number of letters readed.
+ * read_textfile - ...
+ * @filename: The source file
+ * @letters: Number of letters to reads and prints
+ *
+ * Return: ...
  */
+
 ssize_t read_textfile(const char *filename, size_t letters)
+
 {
-	char *buffer;
-	int count, fd_o, fd_r;
+	int fd, readed;
+	char *buff = malloc(sizeof(char *) * letters);
 
-	if (filename == NULL)
+	if (!buff)
 		return (0);
-
-	/* Open file and get file descriptor */
-	fd_o = open(filename, O_RDONLY);
-	if (fd_o == -1)
+	if (!filename)
 		return (0);
-
-	/* allocate memory in buffer to read contents of fd */
-	buffer = malloc(sizeof(char) * letters);
-	if (buffer == NULL)
+	fd = open(filename, O_RDONLY, 0600);
+	if (fd == -1)
 		return (0);
-
-	/* read contents of fd */
-	fd_r = read(fd_o, buffer, letters);
-	if (fd_r == 0)
-
-	{
-		free(buffer);
-		close(fd_o);
-		return (0);
-	}
-
-	/* write to standard output */
-	count = write(STDOUT_FILENO, buffer, fd_r);
-	if (count == -1)
-	{
-		free(buffer);
-		close(fd_r);
-		close(fd_o);
-		return (0);
-	}
-	close(fd_r);
-	close(fd_o);
-
-	return (count);
+	readed = read(fd, buff, letters);
+	write(STDOUT_FILENO, buff, readed);
+	free(buff);
+	close(fd);
+	return (readed);
 }
